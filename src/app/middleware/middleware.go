@@ -78,7 +78,7 @@ func TraceIDMiddleware() echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			req := c.Request()
-			traceID := req.Header.Get("X-Trace-ID")
+			traceID := req.Header.Get("x-trace-id")
 			if traceID == "" {
 				traceID = uuid.NewV4().String()
 			}
