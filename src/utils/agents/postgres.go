@@ -1,10 +1,12 @@
-package postgres
+package agents
 
 import (
 	"context"
 	"errors"
 	"fmt"
+	"log"
 	"pocket-pal/configs"
+	"pocket-pal/src/domain/entity"
 	"strconv"
 
 	"github.com/go-pg/pg/v9"
@@ -19,6 +21,7 @@ type Postgres struct {
 }
 
 func (p *Postgres) New() *gorm.DB {
+	log.Println("Connecting to gorm postgresql")
 	if p.config.Host == "" || p.config.Port == 0 {
 		panic(errors.New("please set postgresql config"))
 	}
@@ -43,6 +46,36 @@ func (p *Postgres) New() *gorm.DB {
 	// SetMaxOpenConns sets the maximum number of open connections to the database.
 	sqldb.SetMaxOpenConns(100)
 
+	// SetConnMaxLifetime sets the maximum amount of time a connection may be reused.
+	sqldb.SetConnMaxLifetime(0)
+
+	log.Println("Checking connection to postgresql")
+	err = sqldb.Ping()
+	if err != nil {
+		log.Println("Error connecting to postgresql")
+		panic(err)
+	}
+
+	log.Println("Auto migrating tables")
+
+	err = db.AutoMigrate(
+		&entity.User{},
+		&entity.Wallet{},
+		&entity.Transactions{},
+		&entity.Budgets{},
+		&entity.Debts{},
+		&entity.GlobalCategory{},
+		&entity.CustomCategory{},
+	)
+
+	if err != nil {
+		log.Fatal("Error migrating tables: ", err)
+		panic(err)
+	}
+
+	log.Println("Auto migration has been completed")
+	log.Println("Postgres gorm is connected")
+
 	return db
 
 }
@@ -62,6 +95,7 @@ func (l dbLogger) AfterQuery(c context.Context, q *pg.QueryEvent) (err error) {
 }
 
 func (p *Postgres) NewPgConnection() *pg.DB {
+	log.Println("Connecting to postgresql")
 	if p.config.Host == "" || p.config.Port == 0 {
 		panic(errors.New("please set postgresql config"))
 	}
@@ -72,6 +106,11 @@ func (p *Postgres) NewPgConnection() *pg.DB {
 		Database: p.config.DbName,
 	})
 	db.AddQueryHook(dbLogger{})
+
+	_, err := db.Exec("SELECT 1")
+	if err != nil {
+		panic(err)
+	}
 
 	return db
 }
