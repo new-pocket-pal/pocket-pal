@@ -12,4 +12,6 @@ func Setup(e *echo.Echo, s *service.Service) {
 	e.GET("/health", func(c echo.Context) error {
 		return c.NoContent(http.StatusOK)
 	})
+
+	e.POST("/user/register", s.RegisterUser)
 }

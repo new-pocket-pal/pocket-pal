@@ -6,7 +6,7 @@ type Response struct {
 }
 
 type Meta struct {
-	Code    int         `json:"code" mapstructure:"code"`
-	Msg     string      `json:"msg" mapstructure:"msg"`
-	Message interface{} `json:"message,omitempty" mapstructure:"message"`
+	Code int         `json:"code" mapstructure:"code"`
+	Msg  string      `json:"msg" mapstructure:"msg"`
+	Err  interface{} `json:"message,omitempty" mapstructure:"message"`
 }

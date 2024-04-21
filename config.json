@@ -1,16 +1,22 @@
 {
-    "port": "8080",
-    "project_root_dir": "./",
-    "redis": {
-      "addr": "localhost:6379",
-      "db": 5
-    },
-    "postgres": {
-      "dbname": "pocket-pal",
-      "debug_mode": true,
-      "host": "localhost",
-      "password": "s3cret",
-      "port": 5432,
-      "user": "tuyenga"
-    }
+  "app_name": "pocket-pal",
+  "app_version": "0.0.1",
+  "jwt": {
+    "secret_key": "pocket-pal-secret-key",
+    "exp_time": 86400
+  },
+  "port": "8080",
+  "project_root_dir": "./",
+  "redis": {
+    "addr": "localhost:6379",
+    "db": 5
+  },
+  "postgres": {
+    "dbname": "pocket-pal",
+    "debug_mode": true,
+    "host": "localhost",
+    "password": "s3cret",
+    "port": 5432,
+    "user": "tuyenga"
   }
+}

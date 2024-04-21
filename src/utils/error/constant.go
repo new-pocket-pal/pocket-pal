@@ -1,19 +1,11 @@
 package error
 
 import (
-	"fmt"
-)
-
-// Activity logs error definition
-var (
-	ErrActivityStatusIsNull = fmt.Errorf("activity status is null")
-)
-
-// Workflow logs error definition
-var (
-	ErrWorkflowIDIsNull = fmt.Errorf("workflow_id is null")
+	"errors"
 )
 
 var (
-	ErrReconcileRecieveDetailNotExist = fmt.Errorf("reconciliation don't exist")
+	ErrUserAlreadyExist    = errors.New("user already existed")
+	ErrCannotCreateUser    = errors.New("cannot create user")
+	ErrCannotGenerateToken = errors.New("cannot generate token")
 )

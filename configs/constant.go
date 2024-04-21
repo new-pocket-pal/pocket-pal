@@ -7,12 +7,18 @@ type Config struct {
 	Postgres       PostgresConfig `json:"postgres" mapstructure:"postgres"`
 	ENV            string         `json:"env" mapstructure:"env"`
 	GpayPath       string         `json:"gpayPath" mapstructure:"gpayPath"`
+	JWT            JWTConfig      `json:"jwt" mapstructure:"jwt"`
 }
 
 type RedisConfig struct {
 	Addr     string `json:"addr" mapstructure:"addr"`
 	Password string `json:"password" mapstructure:"password"`
 	DB       int    `json:"db" mapstructure:"db"`
+}
+
+type JWTConfig struct {
+	SecretKey  string `json:"secret_key" mapstructure:"secret_key"`
+	ExpireTime int64  `json:"exp_time" mapstructure:"exp_time"`
 }
 
 type PostgresConfig struct {

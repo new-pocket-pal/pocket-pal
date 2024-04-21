@@ -16,9 +16,9 @@ func CustomHTTPErrorHandler(l *logrus.Logger) echo.HTTPErrorHandler {
 
 			c.JSON(he.Code, response.Response{
 				Meta: response.Meta{
-					Code:    he.Code,
-					Message: he.Message,
-					Msg:     he.Internal.Error(),
+					Code: he.Code,
+					Err:  he.Message,
+					Msg:  he.Internal.Error(),
 				},
 				Data: nil,
 			})
