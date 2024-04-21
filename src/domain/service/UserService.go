@@ -73,6 +73,9 @@ func (s *Service) RegisterUser(c echo.Context) error {
 			FullName: user.FullName,
 		}
 
+		// generate refresh token
+		refreshToken, _ := utils.GenerateRefreshToken(user, s.Facades.Config.JWT.SecretKey, s.Facades.Config.JWT.RefreshTimeExpire)
+
 		return c.JSON(http.StatusCreated, response.Response{
 			Meta: response.Meta{
 				Code: http.StatusCreated,
@@ -80,11 +83,13 @@ func (s *Service) RegisterUser(c echo.Context) error {
 				Err:  nil,
 			},
 			Data: struct {
-				User        command.RegisterCommandResponse `json:"user"`
-				AccessToken string
+				User         command.RegisterCommandResponse `json:"user"`
+				AccessToken  string                          `json:"access_token"`
+				RefreshToken string                          `json:"refresh_token"`
 			}{
-				User:        responseUser,
-				AccessToken: accessToken,
+				User:         responseUser,
+				AccessToken:  accessToken,
+				RefreshToken: refreshToken,
 			},
 		})
 	} else {

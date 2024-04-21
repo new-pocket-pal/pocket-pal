@@ -17,8 +17,9 @@ type RedisConfig struct {
 }
 
 type JWTConfig struct {
-	SecretKey  string `json:"secret_key" mapstructure:"secret_key"`
-	ExpireTime int64  `json:"exp_time" mapstructure:"exp_time"`
+	SecretKey         string `json:"secret_key" mapstructure:"secret_key"`
+	ExpireTime        int64  `json:"exp_time" mapstructure:"exp_time"`
+	RefreshTimeExpire int64  `json:"refresh_time_expire" mapstructure:"refresh_time_expire"`
 }
 
 type PostgresConfig struct {

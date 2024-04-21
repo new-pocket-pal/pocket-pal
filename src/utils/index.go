@@ -60,6 +60,33 @@ func GenerateAccessToken(user *entity.User, secret string, expireTime int64) (st
 	return accessToken, nil
 }
 
+func GenerateRefreshToken(user *entity.User, secret string, expireTime int64) (string, error) {
+	// implementation of GenerateRefreshToken
+	expirationTime := time.Now().Add(time.Duration(expireTime) * time.Second)
+
+	// create claims
+	claims := &entity.Claims{
+		UserID: user.UserID,
+		Phone:  user.Phone,
+		Email:  user.Email,
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: expirationTime.Unix(),
+		},
+	}
+
+	// create token
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+
+	// sign token
+	refreshToken, err := token.SignedString([]byte(secret))
+	if err != nil {
+		log.Fatal(err)
+		return "", err
+	}
+
+	return refreshToken, nil
+}
+
 func DecodeJwtToken(tokenString string, secret string) (*entity.Claims, error) {
 	// implementation of DecodeJwtToken
 	// parse token

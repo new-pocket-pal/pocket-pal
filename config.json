@@ -3,7 +3,8 @@
   "app_version": "0.0.1",
   "jwt": {
     "secret_key": "pocket-pal-secret-key",
-    "exp_time": 86400
+    "exp_time": 900,
+    "refresh_time_expire": 86400
   },
   "port": "8080",
   "project_root_dir": "./",
